@@ -21,13 +21,14 @@ const Homebooks:React.FC<{data:data}>=(props)=>{
                 {
                     props.data.map((el)=>{
                         const g=(el.volumeInfo.categories && el.volumeInfo.categories.length>0) ?  el.volumeInfo.categories.join(','): ' ';
+                        const img=(el.volumeInfo.imageLinks && el.volumeInfo.imageLinks.thumbnail.length>0)?el.volumeInfo.imageLinks.thumbnail:' ';
                         return(
                             <Item 
                                 key='a1'
-                                image={el.volumeInfo.imageLinks.thumbnail}
+                                image={img}
                                 name={el.volumeInfo.title}
                                 price='23' 
-                                description={el.volumeInfo.description.slice(0,100).concat('...')}
+                                description={''}
                                 genre={g}
                             />
                         )

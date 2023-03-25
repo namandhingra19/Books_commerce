@@ -16,7 +16,7 @@ const Items=()=>{
             price:state.products.price.value,
             genre:state.products.genre.value
         }
-    })
+    })  
     const {paragraph,Handler,crossHandler}=useFilter();
 
     Handler(data.price,'price',`Price between ${data.price[0]},${data.price[1]}`)
