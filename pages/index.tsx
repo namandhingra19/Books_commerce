@@ -19,7 +19,7 @@ type data={
 const Home:React.FC<{sampledata:{booksArray:data}}> =(props) => 
 {
   // if(props?.sampledata==null)
-  // console.log(props.sampledata.booksArray);
+  // console.log(props.sampledata.booksArray[0].volumeInfo.imageLinks);
   return (
     <Fragment>
       <LayoutMainpage>

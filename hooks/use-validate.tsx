@@ -5,12 +5,12 @@ const useValidate=(check:(value:string)=>{})=>{
     const [enteredValue,setvalue]=useState('');
     const [isTouched,setTouched]=useState(false);
     const [errorStatement,setError]=useState('fff');
+    
     const hasError= (errorStatement.length>0) && isTouched;
     const res=check(enteredValue);
     const value=getValue(res.error,['details','0','message'],'');
     const use=useCallback(()=>{
         if(value.length>0){
-            console.log('jj'),
             setError(()=>value)
         }
         else {
