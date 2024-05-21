@@ -1,15 +1,14 @@
-import Filters from './filters';
-import Items from './items';
-import style from './products.module.css'
+import Filters from "./filters";
+import Items from "./items";
+import style from "./products.module.css";
 
-const Products=()=>{
-    console.log('2nd time');
-    return(
+const Products = () => {
+  return (
     <div className={style.main}>
-        <Filters/>
-        <Items/>
+      <Filters />
+      <Items />
     </div>
-    )
-}
+  );
+};
 
 export default Products;

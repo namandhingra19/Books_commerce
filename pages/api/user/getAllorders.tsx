@@ -1,0 +1,35 @@
+import mongoose from "mongoose";
+import { hash } from "bcryptjs";
+import User from "../../../modals/User";
+import {
+  errorHandler,
+  getValue,
+  responseHandler,
+  validateUser,
+} from "../../../utils/common";
+import { NextApiRequest, NextApiResponse } from "next";
+import { signIn } from "next-auth/react";
+import { Books } from "../../../modals/Books";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === "GET") {
+    const { emailId } = req.query;
+    console.log(emailId);
+    try {
+      const user = await User.findOne({ email: emailId }).populate({
+        path: "orderedItems",
+        populate: "bookId",
+      });
+      console.log(user);
+      res.status(200).json(user.orderedItems);
+    } catch (err) {
+      console.log(err);
+      errorHandler(err, res);
+    }
+  } else {
+    errorHandler("Invalid Request Type", res);
+  }
+}

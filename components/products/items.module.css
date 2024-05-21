@@ -51,3 +51,11 @@
     color:white;
     font-weight: 700;
 }
+
+.items{
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: initial;
+    justify-content: space-around;
+    margin:30px 0;
+}

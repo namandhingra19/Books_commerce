@@ -14,7 +14,10 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mantine/core": "^5.10.5",
+    "@mantine/notifications": "^5.10.5",
     "@reduxjs/toolkit": "^1.8.3",
+    "@tabler/icons": "^3.4.0",
     "axios": "^0.27.2",
     "babel-preset-es2015": "^6.24.1",
     "bcryptjs": "^2.4.3",
@@ -33,6 +36,7 @@
     "react-dom": "18.2.0",
     "react-player": "^2.10.1",
     "react-redux": "^8.0.2",
+    "react-router-dom": "^6.21.1",
     "redux": "^4.2.0"
   },
   "devDependencies": {
