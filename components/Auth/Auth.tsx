@@ -85,13 +85,6 @@ const Auth = (props) => {
   const statement = signin
     ? `Don't have an account`
     : "Already have an account";
-  useEffect(() => {
-    setTimeout(() => {
-      if (status === "authenticated") {
-        router.push("/");
-      }
-    }, 2000);
-  }, [status]);
   // if(isLoading) p='loading';
   // else if(error) p=error
   // else p='done'
@@ -103,7 +96,6 @@ const Auth = (props) => {
   return (
     <div className={style.main}>
       {isLoading && <Loading />}
-      {status === "unauthenticated" && (
         <Fragment>
           <div className={style.user}>
             <div className={style.formdiv}>
@@ -171,16 +163,7 @@ const Auth = (props) => {
             </button>
           </div>
         </Fragment>
-      )}
-      {status === "authenticated" && (
-        <Fragment>
-          <div className={style.authenticated}>
-            <p>You are logged in!</p>
-            <p>Redirecting to main page</p>
-            <Loading />
-          </div>
-        </Fragment>
-      )}
+      
     </div>
   );
 };
