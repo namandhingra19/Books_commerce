@@ -1,9 +1,7 @@
-import React, { Fragment } from 'react'
-import style from './AuthLoginform.module.css'
+import React from 'react'
 import useValidate from '../../hooks/use-validate'
 import { emailSchema, passwordSchema } from '../../utils/common'
-import {signOut} from 'next-auth/react'
-import { redirect } from 'next/dist/server/api-utils'
+import style from './AuthLoginform.module.css'
 const AuthLoginForm:React.FC<{onsubmit:(email:string,password:string)=>{},onstart:()=>void}>=(props)=>{
     const {
         ChangeHandler:emailHandler,
@@ -64,7 +62,6 @@ const AuthLoginForm:React.FC<{onsubmit:(email:string,password:string)=>{},onstar
             ></input>
 
             <div className={style.submitdiv}>
-                <a className={style.forgot} onClick={async()=>await signOut({redirect:false})}>Forget password?</a>
                 <button disabled={!formvalid}>Sign In</button>
             </div>
         </form>

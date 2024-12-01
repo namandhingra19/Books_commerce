@@ -1,7 +1,9 @@
 "use client";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Center, Modal, Stack, Text } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,9 +13,6 @@ import { userCart } from "../../store/userCart";
 import { BooksData } from "../HomeBooks/Homebooks";
 import CartItem from "./CartItem";
 import styles from "./Navigation.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { showNotification } from "@mantine/notifications";
 const userCartActions = userCart.actions;
 // import { useNavigate } from "react-router-dom";
 const Navigation = () => {

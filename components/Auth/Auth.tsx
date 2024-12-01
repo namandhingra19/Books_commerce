@@ -6,7 +6,6 @@ import {
   faGoogle,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useRef, useState } from "react";
 import useApi from "../../hooks/use-api";
@@ -21,7 +20,6 @@ const Auth = (props) => {
   const [signin, setsignin] = useState(true);
   const { isLoading, error, sendRequest, setErrorNull } = useApi();
   const [requestsend, setrequest] = useState(false);
-  const { data: session, status } = useSession();
   const router = useRouter();
   let p = "nothing";
 
