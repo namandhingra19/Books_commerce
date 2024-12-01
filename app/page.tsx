@@ -1,3 +1,4 @@
+"use client";
 import React, { Fragment, useEffect, useState } from "react";
 import Navigation from "../components/Navigation/Navigation";
 import LayoutMainpage from "../components/utilities/LayoutMainpage";
@@ -31,6 +32,7 @@ const Home: React.FC<{ sampledata: { booksArray: data } }> = (props) => {
   };
 
   useEffect(() => {
+    console.log("useEffect");
     getBooks();
   }, []);
   return (
@@ -44,22 +46,3 @@ const Home: React.FC<{ sampledata: { booksArray: data } }> = (props) => {
 };
 
 export default Home;
-
-export async function getStaticProps() {
-  connect();
-  // const resd = await fetch(
-  //   `https://www.googleapis.com/books/v1/volumes?q=subject:SCIENCE&maxResults=20`
-  // );
-  const resd = await axios.get(
-    `https://www.googleapis.com/books/v1/volumes?q=self+help:keyes&key=AIzaSyBLpkFwG7wX7dapLT8Vkx7e23TIwcrg8kk`
-  );
-  const data = await resd.data;
-
-  return {
-    props: {
-      sampledata: {
-        booksArray: data.items,
-      },
-    },
-  };
-}

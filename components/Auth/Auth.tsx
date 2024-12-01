@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import style from "./Auth.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,8 +12,8 @@ import useApi from "../../hooks/use-api";
 import AuthLoginForm from "./AuthLoginform";
 import AuthSignUp from "./AuthSignupform";
 import { signIn, getSession, useSession } from "next-auth/react";
-import Loading from "../utilities/loading";
-import { useRouter } from "next/router";
+import Loading from "../utilities/Loading";
+import { useRouter } from "next/navigation";
 interface Props {
   name: string;
 }
@@ -85,7 +87,7 @@ const Auth = (props) => {
   useEffect(() => {
     setTimeout(() => {
       if (status === "authenticated") {
-        router.push({ pathname: "/" });
+        router.push("/");
       }
     }, 2000);
   }, [status]);

@@ -1,16 +1,8 @@
-import mongoose from "mongoose";
-import { hash } from "bcryptjs";
-import User from "../../../modals/User";
-import {
-  errorHandler,
-  getValue,
-  responseHandler,
-  validateUser,
-} from "../../../utils/common";
 import { NextApiRequest, NextApiResponse } from "next";
-import { signIn } from "next-auth/react";
-import { Books } from "../../../modals/Books";
 import Order from "../../../modals/Order";
+import {
+  errorHandler
+} from "../../../utils/common";
 
 export default async function handler(
   req: NextApiRequest,

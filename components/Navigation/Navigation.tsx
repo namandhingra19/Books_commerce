@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import styles from "./Navigation.module.css";
 import { faSearch, faCartShopping } from "@fortawesome/free-solid-svg-icons";

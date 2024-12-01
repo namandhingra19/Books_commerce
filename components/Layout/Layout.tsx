@@ -1,3 +1,5 @@
+"use client";
+
 import Navigation from "../Navigation/Navigation";
 import React from "react";
 import style from './layout.module.css'

@@ -1,3 +1,5 @@
+"use client"
+
 import { createSlice } from "@reduxjs/toolkit";
 const intitalproductState={
     rating: {value:0,show:false},

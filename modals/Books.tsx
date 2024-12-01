@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose,{ Schema, model, models } from "mongoose";
 
 const booksSchema = new mongoose.Schema({
   title: {
@@ -34,4 +34,4 @@ const booksSchema = new mongoose.Schema({
     },
   ],
 });
-export const Books = mongoose.model("booksdata", booksSchema);
+export const Books = models.booksdata || mongoose.model("booksdata", booksSchema);

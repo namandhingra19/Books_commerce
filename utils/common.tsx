@@ -1,19 +1,21 @@
 import { NextApiResponse } from "next"
 import Joi from 'joi'
 import { join } from "path"
+import { NextResponse } from "next/server"
 
-export const errorHandler=(data:any,res:NextApiResponse,code=400)=>{
-    res.status(code).json({
+export const errorHandler=(data:any)=>{
+    // res.status(code).json({
+    //     hasError:true,
+    //     errorMessage:data
+    // })
+    return NextResponse.json({
         hasError:true,
         errorMessage:data
-    })
+    });
 }
 
-export const responseHandler=(data:any,res:NextApiResponse,code=200)=>{
-    res.status(code).json({
-        hasError:false,
-        body:data
-    })
+export const responseHandler=(data:any)=>{
+    return NextResponse.json(data);
 }
 export const emailSchema=Joi.string().email({ tlds: { allow: false } }).required().label('Email');
 export const passwordSchema=Joi.string().min(4).max(20).required().description('password').label('Password');
