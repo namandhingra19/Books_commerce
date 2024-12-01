@@ -153,7 +153,10 @@ const Navigation = () => {
               <button
                 className={styles.user}
                 onClick={async () => {
+        if (typeof window !== "undefined") {
+
                   localStorage.clear();
+        }
                   window.location.href = "/";
                 }}
               >

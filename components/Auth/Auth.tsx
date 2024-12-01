@@ -46,7 +46,10 @@ const Auth = (props) => {
       },
       "signin",
       (data) => {
-        localStorage.setItem("TOKEN", data);
+        if (typeof window !== "undefined") {
+          // Access localStorage here
+          localStorage.setItem("TOKEN", data);
+      }
         window.location.href = "/";
       }
     );
@@ -73,7 +76,10 @@ const Auth = (props) => {
       },
       "signup",
       (token) => {
+        if (typeof window !== "undefined") {
+        
         localStorage.setItem("TOKEN", token);
+        }
         window.location.href = "/";
       }
     );
