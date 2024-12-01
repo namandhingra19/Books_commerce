@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-import { signIn } from "next-auth/react";
 
 const useApi = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,41 +19,44 @@ const useApi = () => {
 
           if (response.status === 400 || response.status === 200) {
             const data = await response.json();
-
             if (response.status === 400) {
               throw new Error(data.errorMessage);
             } else {
-              const payload = {
-                email: requestConfig.body.email,
-                password: requestConfig.body.password,
-              };
-              const response_login = await signIn("credentials", {
-                ...payload,
-                redirect: false,
-              });
-              if (response_login?.status !== 200) {
-                throw `Error`;
-              } else {
-                applyData(data);
-              }
+              applyData(data.token);
             }
           } else {
             throw new Error();
           }
         } else if (request === "signin") {
-          const response = await signIn(
-            requestConfig.provider,
-            requestConfig.payload
-          );
-          if (response.status === 401 || response.status == 200) {
-            if (response.status === 401) {
-              throw new Error(response.error);
+          const response = await fetch(requestConfig.url, {
+            method: requestConfig.method ? requestConfig.method : "GET",
+            headers: requestConfig.headers ? requestConfig.headers : {},
+            body: requestConfig.payload
+              ? JSON.stringify(requestConfig.payload)
+              : null,
+          });
+
+          if (response.status === 400 || response.status === 200) {
+            const data = await response.json();
+            if (response.status === 400) {
+              throw new Error(data.errorMessage);
             } else {
-              console.log(response);
-              applyData(response);
+              applyData(data.token);
             }
-          } else {
-            throw new Error();
+          // const response = await signIn(
+          //   requestConfig.provider,
+          //   requestConfig.payload
+          // );
+          // if (response.status === 401 || response.status == 200) {
+          //   if (response.status === 401) {
+          //     throw new Error(response.error);
+          //   } else {
+          //     console.log(response);
+          //     applyData(response);
+          //   }
+          // } else {
+          //   throw new Error();
+          // }
           }
         }
       } catch (err) {

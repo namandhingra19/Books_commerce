@@ -26,7 +26,11 @@ const Home: React.FC<{ sampledata: { booksArray: data } }> = (props) => {
   function applyData(data: any) {}
 
   const getBooks = async () => {
-    const response = await fetch("/api/books/getall");
+    const response = await fetch("/api/books/getall"
+      ,{
+        
+      }
+    );
     const data = await response.json();
     setData(data);
   };

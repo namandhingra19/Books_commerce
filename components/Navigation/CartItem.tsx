@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +15,7 @@ const CartItem = ({ item, onIncrease }) => {
         <div style={styles.quantity}>
           <span>{quantity}</span>
           <button onClick={() => onIncrease(item)} style={styles.plusButton}>
-            <FontAwesomeIcon icon={faPlus} fontSize={14} />
+            +
           </button>
         </div>
       </div>

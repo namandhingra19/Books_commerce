@@ -1,24 +1,21 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Books } from "../../../../modals/Books";
 import { errorHandler } from "../../../../utils/common";
+import User from "../../../../modals/User";
 import { NextResponse } from "next/server";
-import connect from "../../../../lib/database";
 
-export async function GET() {
-  console.log("in api");
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
+  const { userId } = req.body;
   try {
-    await connect();
-    const books = await Books.find().limit(80);
+    const books = await User.findById(userId).populate("cartItems");
     return NextResponse.json(books);
   } catch (err) {
     console.log(err);
     return NextResponse.json(
       {
         hasError: true,
-        errorMessage: "Error in getting books",
+        errorMessage: "Error in getting cart items",
       },
       { status: 400 }
     );
-    // errorHandler(err, res);
   }
 }

@@ -1,18 +1,19 @@
 "use client";
-import { useEffect, useState } from "react";
-import styles from "./Navigation.module.css";
-import { faSearch, faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSession, signOut } from "next-auth/react";
-import Link from "next/link";
 import { Button, Center, Modal, Stack, Text } from "@mantine/core";
 import axios from "axios";
-import { showNotification } from "@mantine/notifications";
+import { signOut } from "next-auth/react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "../../hooks/use-user";
 import { RootState } from "../../store";
+import { userCart } from "../../store/userCart";
 import { BooksData } from "../HomeBooks/Homebooks";
 import CartItem from "./CartItem";
-import { userCart } from "../../store/userCart";
+import styles from "./Navigation.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { showNotification } from "@mantine/notifications";
 const userCartActions = userCart.actions;
 // import { useNavigate } from "react-router-dom";
 const Navigation = () => {
@@ -20,46 +21,48 @@ const Navigation = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  //   const navigate = useNavigate();
+  const {user} =useAuth()
   const searchfocusHandler = () => {
     setisActive(true);
   };
   const searchblurHandler = () => {
     setisActive(false);
   };
+
+  useEffect(() => {
+    console.log("user--")
+   console.log(user)
+  }, [user]);
   async function getuserCartItems() {
     const res = await axios.get("/api/user/getCartItems");
   }
   const classes = `${styles.searchdiv} ${isActive ? styles.searchactive : ""}`;
-  const { data: session, status } = useSession();
   const userItems = useSelector<RootState, BooksData[]>((state) => {
     return state.userCart.items;
   });
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (session) console.log(session.user);
-  }, [session]);
+  
 
-  async function addToCarthandler() {
-    if (session && session.user) {
-      dispatch(userCartActions.removeAllproducts());
-      const yy = await axios.post("/api/user/postBooks", {
-        emailId: session.user.email,
-        bookItems: userItems,
-      });
-      const data = await yy.data;
-      console.log(data);
-      showNotification({
-        message: "Order Placed Successfully",
-      });
-      setShowModal(false);
-    } else {
-      showNotification({
-        message: "You need to first login",
-      });
+    async function addToCarthandler() {
+      if (user) {
+        dispatch(userCartActions.removeAllproducts());
+        const yy = await axios.post("/api/user/postBooks", {
+          emailId: user.email,
+          bookItems: userItems,
+        });
+        const data = await yy.data;
+        console.log(data);
+        showNotification({
+          message: "Order Placed Successfully",
+        });
+        setShowModal(false);
+      } else {
+        showNotification({
+          message: "You need to first login",
+        });
+      }
     }
-  }
   return (
     <>
       <div className={styles.main}>
@@ -81,18 +84,6 @@ const Navigation = () => {
               }}
             >
               Home
-            </p>
-            <p
-              className={styles.products}
-              onClick={() => {
-                window.location.href = "/products";
-                //   navigate("/products");
-              }}
-              style={{
-                cursor: "pointer",
-              }}
-            >
-              Products
             </p>
             <p
               className={styles.products}
@@ -121,24 +112,6 @@ const Navigation = () => {
           </div>
         </div>
         <div className={styles.users}>
-          <div className={classes}>
-            <input
-              className={styles.searchinput}
-              placeholder="Search"
-              onFocus={searchfocusHandler}
-              onBlur={searchblurHandler}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  window.location.href = `/products?q=${searchQuery}`;
-                }
-              }}
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-              }}
-            ></input>
-            <FontAwesomeIcon icon={faSearch} className={styles.searchlogo} />
-          </div>
           <div className={styles.usercart}>
             <div
               style={{
@@ -152,7 +125,7 @@ const Navigation = () => {
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  if (session && session.user) {
+                  if (user) {
                     setShowModal(true);
                   } else {
                     showNotification({
@@ -177,15 +150,18 @@ const Navigation = () => {
                 <Center>{userItems.length}</Center>
               </div>
             </div>
-            {status === "authenticated" && (
+            {user && (
               <button
                 className={styles.user}
-                onClick={async () => await signOut({ redirect: false })}
+                onClick={async () => {
+                  localStorage.clear();
+                  window.location.href = "/";
+                }}
               >
                 Logout
               </button>
             )}
-            {status === "unauthenticated" && (
+            {!user && (
               <button className={styles.user}>
                 <Link href={"/login"}>LOGIN</Link>
               </button>
@@ -212,7 +188,7 @@ const Navigation = () => {
                 onIncrease={() => {
                   dispatch(userCartActions.addproduct(useritem));
                 }}
-                key={useritem._id}
+                // key={useritem._id}
               />
             );
           })}

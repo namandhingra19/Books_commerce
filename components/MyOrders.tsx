@@ -1,7 +1,9 @@
+"use client"
+
 import { Flex, Stack, Text } from "@mantine/core";
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/use-user";
 export function formatDate(date) {
   // Array of suffixes for day of the month
   var suffixes = ["th", "st", "nd", "rd"];
@@ -21,11 +23,11 @@ export function formatDate(date) {
 }
 export function MyOrders() {
   const [allOrders, setALlOrders] = useState([]);
-  const { data: session } = useSession();
+  const {user}=useAuth()
   async function fetchAllOrders() {
-    if (session && session.user) {
+    if (user) {
       const res = await axios.get(
-        `/api/user/getAllorders?emailId=${session.user.email}`
+        `/api/user/getAllorders?emailId=${user.email}`
       );
       const data = await res.data;
       setALlOrders(data);
@@ -33,7 +35,7 @@ export function MyOrders() {
   }
   useEffect(() => {
     fetchAllOrders();
-  }, [session]);
+  }, [user]);
   return (
     <Stack mt={100} w="100%">
       <Text ta="center" fz={30} fw={700}>

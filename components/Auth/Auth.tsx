@@ -1,19 +1,19 @@
 "use client";
 
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import style from "./Auth.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
   faGithub,
   faGoogle,
 } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { Fragment, useEffect, useRef, useState } from "react";
 import useApi from "../../hooks/use-api";
+import Loading from "../utilities/Loading";
+import style from "./Auth.module.css";
 import AuthLoginForm from "./AuthLoginform";
 import AuthSignUp from "./AuthSignupform";
-import { signIn, getSession, useSession } from "next-auth/react";
-import Loading from "../utilities/Loading";
-import { useRouter } from "next/navigation";
 interface Props {
   name: string;
 }
@@ -41,13 +41,15 @@ const Auth = (props) => {
     const payload = { email, password };
     const g = await sendRequest(
       {
+        url:"/api/auth/signin",
         provider: "credentials",
         payload: { ...payload, redirect: false },
+        method:"POST"
       },
       "signin",
       (data) => {
-        console.log(data);
-        localStorage.setItem("email", data.email);
+        localStorage.setItem("TOKEN", data);
+        window.location.href = "/";
       }
     );
     setrequest(() => true);
@@ -72,8 +74,9 @@ const Auth = (props) => {
         },
       },
       "signup",
-      (data) => {
-        localStorage.setItem("email", data.email);
+      (token) => {
+        localStorage.setItem("TOKEN", token);
+        window.location.href = "/";
       }
     );
   };
